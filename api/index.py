@@ -310,6 +310,7 @@ class CandidateProfile(BaseModel):
     skills: list[str]
     experience_years: float
     preferred_roles: list[str] = []
+    education: str = ""
 
 
 class RankedJob(BaseModel):
@@ -455,6 +456,7 @@ def run_agent(resume_text: str, top_jobs: list[dict]) -> tuple[CandidateProfile,
             skills=parsed_args.get("skills", []),
             experience_years=float(parsed_args.get("experience_years", 0)),
             preferred_roles=parsed_args.get("preferred_roles", []),
+            education=parsed_args.get("education", ""),
         )
 
         # --- Step 2: Reason about matches ---
@@ -640,7 +642,7 @@ def recommend(req: RecommendRequest):
         print(f"[/recommend] Agent succeeded: {candidate.name}, {len(candidate.skills)} skills")
     except Exception as e:
         print(f"[/recommend] Agent failed, using fallback: {e}")
-        candidate = CandidateProfile(name="Unknown", skills=[], experience_years=0.0)
+        candidate = CandidateProfile(name="Unknown", skills=[], experience_years=0.0, education="")
         explanations = []
         agent_status = "degraded"
 
