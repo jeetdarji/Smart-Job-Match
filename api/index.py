@@ -541,7 +541,7 @@ def generate_clarifying_question(
                     "Do not ask generic questions like 'tell me more about yourself'. "
                     "Be specific. No preamble. No numbering. Just the question."
                 ),
-                max_output_tokens=150,
+                max_output_tokens=300,
                 temperature=0.7
             )
         )
@@ -723,15 +723,23 @@ def refine(req: RefineRequest):
                     "\"reasoning\": \"2-3 sentences explaining what changed and why\"}"
                 ),
                 response_mime_type="application/json",
-                max_output_tokens=2048,
+                max_output_tokens=8192,
                 temperature=0.3
             )
         )
 
         raw = refine_response.text.strip()
-        # Strip markdown code fences if the LLM wraps its response
-        if raw.startswith("```"):
-            raw = raw.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
+        # Strip markdown code fences
+        if "```json" in raw:
+            raw = raw.split("```json", 1)[1].split("```", 1)[0].strip()
+        elif "```" in raw:
+            raw = raw.split("```", 1)[1].split("```", 1)[0].strip()
+        # Extract JSON object if there is surrounding text
+        if not raw.startswith("{"):
+            start = raw.find("{")
+            end = raw.rfind("}") + 1
+            if start != -1 and end > start:
+                raw = raw[start:end]
         refine_data = json.loads(raw)
         new_order_raw = refine_data.get("new_order", refine_data.get("ranked_ids", []))
         new_order = [int(jid) for jid in new_order_raw]
