@@ -229,6 +229,3 @@ See `.env.example` for the template.
 
 ---
 
-## Assignment Context
-
-This project was built as part of the **Cantilever Labs AI Engineer Intern** assignment. The requirements included building a job recommendation API with semantic similarity ranking using embeddings, an LLM agent with real tool calling (not prompt-only), a clarifying question flow, and deployment on Vercel with `POST /recommend` and `POST /refine` endpoints.
