@@ -541,8 +541,9 @@ def generate_clarifying_question(
                     "Do not ask generic questions like 'tell me more about yourself'. "
                     "Be specific. No preamble. No numbering. Just the question."
                 ),
-                max_output_tokens=300,
-                temperature=0.7
+                max_output_tokens=1024,
+                temperature=0.7,
+                thinking_config=types.ThinkingConfig(thinking_budget=0)
             )
         )
 
@@ -724,7 +725,8 @@ def refine(req: RefineRequest):
                 ),
                 response_mime_type="application/json",
                 max_output_tokens=8192,
-                temperature=0.3
+                temperature=0.3,
+                thinking_config=types.ThinkingConfig(thinking_budget=0)
             )
         )
 
