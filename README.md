@@ -27,7 +27,7 @@ Smart Job Match Agent/
 ├── requirements.txt      # Python dependencies
 ├── vercel.json           # Vercel routing and build config
 ├── test_score_spread.py  # Score spread validation test
-├── WRITEUP.md            # This file — project docs + technical write-up
+├── README.md             # Project docs + technical write-up (see bottom)
 ├── .env.example          # Required environment variables
 └── .gitignore
 ```
@@ -40,26 +40,17 @@ The API loads 50 jobs from `jobs.json` and embeds them all at startup using Gemi
 
 ---
 
-## Setup
+## Run Locally (5 commands)
 
 ```bash
-git clone https://github.com/your-username/Smart-Job-Match-Agent.git
-cd Smart-Job-Match-Agent
+git clone https://github.com/jeetdarji/Smart-Job-Match.git
+cd Smart-Job-Match
 pip install -r requirements.txt
-```
-
-Create a `.env` file (see `.env.example`):
-
-```
-GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_API_KEY_2=your_second_gemini_api_key_here
-```
-
-Start the server:
-
-```bash
+cp .env.example .env        # then add your Gemini API key(s)
 uvicorn api.index:app --reload
 ```
+
+> **Note:** You must edit `.env` and add at least `GEMINI_API_KEY` (get one free at [aistudio.google.com](https://aistudio.google.com/)). `GEMINI_API_KEY_2` is optional — used for automatic rate-limit rotation. No real API keys are committed to the repo (`.env` is gitignored).
 
 ---
 
